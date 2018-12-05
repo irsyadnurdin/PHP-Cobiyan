@@ -31,7 +31,7 @@ $app->get('/', function($req, $res)
 });
  
 // buat route untuk webhook
-$app->post('/webhook', function ($request, $response) use ($bot, $pass_signature)
+$app->post('/webhook', function ($request, $response) use ($bot, $pass_signature, $httpClient)
 {
     // get request body and line signature header
     $body        = file_get_contents('php://input');
@@ -68,17 +68,30 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
                     if($usermessage == '/menu') 
                     {
 
-                        $result = $bot->replyText($event['replyToken'], $event['message']['text']);    
+                        $flexTemplate = file_get_contents("ticket.json"); // template flex message
+                            $result = $httpClient->post(LINEBot::DEFAULT_ENDPOINT_BASE . '/v2/bot/message/reply', [
+                                'replyToken' => $event['replyToken'],
+                                'messages'   => [
+                                    [
+                                        'type'     => 'flex',
+                                        'altText'  => 'Test Flex Message',
+                                        'contents' => json_decode($flexTemplate)
+                                    ]
+                                ],
+                            ]);    
 
+                    } 
+                    else 
+                    {
+                        // send same message as reply to user
+                        $result = $bot->replyText($event['replyToken'], $event['message']['text']);
+         
+                        // or we can use replyMessage() instead to send reply message
+                        // $textMessageBuilder = new TextMessageBuilder($event['message']['text']);
+                        // $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
+         
+                        return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus());
                     }    
-                    // send same message as reply to user
-                    // $result = $bot->replyText($event['replyToken'], $event['message']['text']);
-     
-                    // or we can use replyMessage() instead to send reply message
-                    // $textMessageBuilder = new TextMessageBuilder($event['message']['text']);
-                    // $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
-     
-                    return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus());
                 }
             }
         } 
