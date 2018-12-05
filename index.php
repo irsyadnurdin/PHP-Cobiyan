@@ -97,6 +97,22 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
                             ]);    
 
                     } 
+                    else if($usermessage == '/berita') 
+                    {
+
+                        $flexTemplate = file_get_contents("detail_payment.json"); // template flex message
+                            $result = $httpClient->post(LINEBot::DEFAULT_ENDPOINT_BASE . '/v2/bot/message/reply', [
+                                'replyToken' => $event['replyToken'],
+                                'messages'   => [
+                                    [
+                                        'type'     => 'flex',
+                                        'altText'  => 'Test Flex Message',
+                                        'contents' => json_decode($flexTemplate)
+                                    ]
+                                ],
+                            ]);    
+
+                    } 
                     else 
                     {
                         // send same message as reply to user
