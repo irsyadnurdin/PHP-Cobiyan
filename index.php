@@ -65,7 +65,7 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
                 {
                     $usermessage = ($event['message']['text']);
 
-                    if($usermessageA[0] == '/menu') 
+                    if($usermessage == '/menu') 
                     {
 
                         $result = $bot->replyText($event['replyToken'], $event['message']['text']);    
