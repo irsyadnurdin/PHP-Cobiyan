@@ -63,8 +63,16 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
             {
                 if($event['message']['type'] == 'text')
                 {
+                    $usermessage = ($event['message']['text']);
+
+                    if($usermessageA[0] == '/menu') 
+                    {
+
+                        $result = $bot->replyText($event['replyToken'], $event['message']['text']);    
+
+                    }    
                     // send same message as reply to user
-                    $result = $bot->replyText($event['replyToken'], $event['message']['text']);
+                    // $result = $bot->replyText($event['replyToken'], $event['message']['text']);
      
                     // or we can use replyMessage() instead to send reply message
                     // $textMessageBuilder = new TextMessageBuilder($event['message']['text']);
