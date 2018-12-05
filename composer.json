@@ -1,0 +1,10 @@
+{
+    "name": "buricakburinong/line-bot-php",
+    "description": "Simple line bot",
+    "type": "project",
+    "require": {
+    	"php": "^7.2.12",
+        "slim/slim": "^3.8",
+        "linecorp/line-bot-sdk": "^2.1"
+    }
+}
