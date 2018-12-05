@@ -65,23 +65,23 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
                 {
                     $usermessage = ($event['message']['text']);
 
-                    // if($usermessage == '/menu') 
-                    // {
+                    if($usermessage == '/menu') 
+                    {
 
-                    //     $flexTemplate = file_get_contents("ticket.json"); // template flex message
-                    //         $result = $httpClient->post(LINEBot::DEFAULT_ENDPOINT_BASE . '/v2/bot/message/reply', [
-                    //             'replyToken' => $event['replyToken'],
-                    //             'messages'   => [
-                    //                 [
-                    //                     'type'     => 'flex',
-                    //                     'altText'  => 'Test Flex Message',
-                    //                     'contents' => json_decode($flexTemplate)
-                    //                 ]
-                    //             ],
-                    //         ]);    
+                        $flexTemplate = file_get_contents("ticket.json"); // template flex message
+                            $result = $httpClient->post(LINEBot::DEFAULT_ENDPOINT_BASE . '/v2/bot/message/reply', [
+                                'replyToken' => $event['replyToken'],
+                                'messages'   => [
+                                    [
+                                        'type'     => 'flex',
+                                        'altText'  => 'Test Flex Message',
+                                        'contents' => json_decode($flexTemplate)
+                                    ]
+                                ],
+                            ]);    
 
-                    // } 
-                    // else 
+                    } 
+                    else 
                     {
                         // send same message as reply to user
                         $result = $bot->replyText($event['replyToken'], $event['message']['text']);
